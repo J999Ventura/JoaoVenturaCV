@@ -21,7 +21,7 @@
       <a href="#skills">Skills</a>
       <a href="#contact">Contact</a>
     </nav>
-    <a class="download small" href="Joao-Ventura-CV.pdf" download aria-label="Download João Ventura's CV as PDF">
+    <a class="download small cv-download" href="./Joao-Ventura-CV.pdf" download aria-label="Download João Ventura's CV as PDF">
       <svg class="button-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 20h14"/></svg>
       <span class="download-label">Download CV</span>
       <span class="download-mobile-label">CV</span>
@@ -35,7 +35,7 @@
         <h1 id="hero-title">I find the flaws<br>before users do.</h1>
         <p class="intro">Quality, clarity and precision are at the centre of my work. I build reliable testing processes and automation that help teams ship better software.</p>
         <div class="hero-actions">
-          <a class="download" href="Joao-Ventura-CV.pdf" download>Download CV <span aria-hidden="true">↓</span></a>
+          <a class="download cv-download" href="./Joao-Ventura-CV.pdf" download>Download CV <span aria-hidden="true">↓</span></a>
           <a class="linkedin-button" href="https://www.linkedin.com/in/joao-ventura-59887ba7/" target="_blank" rel="noreferrer" aria-label="View João Ventura's LinkedIn profile">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 8.3H3.2V19h3.3V8.3ZM4.9 3a1.9 1.9 0 1 0 0 3.8A1.9 1.9 0 0 0 4.9 3Zm7 5.3H8.7V19H12v-5.3c0-1.4.3-2.8 2.1-2.8s1.8 1.7 1.8 2.9V19h3.3v-5.9c0-2.9-.6-5.1-4-5.1-1.6 0-2.7.9-3.2 1.7h-.1V8.3Z"/></svg>
           </a>
@@ -287,6 +287,39 @@
 
     const menuToggle = document.querySelector('.menu-toggle');
     const mainNavigation = document.getElementById('main-navigation');
+    const profileColumn = document.querySelector('.profile-column');
+    const mainColumn = document.querySelector('.main-column');
+    const contactSection = document.getElementById('contact');
+    const mobileLayout = window.matchMedia('(max-width: 860px)');
+
+    const updateResponsiveContent = (event) => {
+      const isMobile = event.matches;
+
+      if (isMobile) {
+        mainColumn.insertAdjacentElement('afterend', contactSection);
+      } else {
+        profileColumn.append(contactSection);
+      }
+
+      document.querySelectorAll('.cv-download').forEach((link) => {
+        if (isMobile) {
+          link.removeAttribute('download');
+          link.setAttribute('target', '_blank');
+          link.setAttribute('rel', 'noopener');
+        } else {
+          link.setAttribute('download', '');
+          link.removeAttribute('target');
+          link.removeAttribute('rel');
+        }
+      });
+    };
+
+    updateResponsiveContent(mobileLayout);
+    if (mobileLayout.addEventListener) {
+      mobileLayout.addEventListener('change', updateResponsiveContent);
+    } else {
+      mobileLayout.addListener(updateResponsiveContent);
+    }
 
     const closeMobileMenu = () => {
       menuToggle.setAttribute('aria-expanded', 'false');
